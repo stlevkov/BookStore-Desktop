@@ -1,0 +1,61 @@
+header {
+    background: #DDD;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+header a {
+    text-decoration: none;
+    padding: 10px 10px;
+    border-radius: 3px;
+}
+
+header a:hover {
+    background: #AAA;
+}
+
+#loadingBox, #infoBox, #errorBox {
+    margin: 10px auto;
+    padding: 5px 10px;
+    border-radius: 3px;
+    width: 80%;
+    text-align: center;
+}
+
+#loadingBox, #infoBox, #errorBox {
+    display: none;
+    background: #AAA;
+    padding: 5px 10px;
+    border-radius: 3px;
+    width: 80%;
+    text-align: center;
+}
+
+#loadingBox {
+    background: #7CB3E9;
+}
+#infoBox {
+    background: #393;
+}
+
+#errorBox {
+    background: #F50;
+    color: white;
+}
+
+main > section {
+    display: none;
+    display: none;
+}
+
+footer {
+    background: #DDD;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 0.8em;
+    margin: 10px 0px;
+}
+
+
