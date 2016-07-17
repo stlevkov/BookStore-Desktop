@@ -46,7 +46,17 @@ header a:hover {
 
 main > section {
     display: none;
-    display: none;
+}
+
+table th{
+    background: #AAA;
+    font-size: 1.2em;
+    padding: 10px 10px;
+}
+
+table td {
+    background: #DDD;
+    padding: 5px 10px;
 }
 
 footer {

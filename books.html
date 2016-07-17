@@ -21,8 +21,8 @@
 
   <main>
       <section id="loadingBox">Loading</section>
-      <section id="infoBox">Info</section>
-      <section id="errorBox">Error!</section>
+      <section id="infoBox" onclick="$(this).hide()">Info</section>
+      <section id="errorBox" onclick="$(this).hide()">Error!</section>
 
       <section id="viewHome">
          <h1>Welcome</h1>
@@ -35,7 +35,7 @@
             <div>Username:</div>
             <div><input type="text" id="loginUser" required="true"/></div>
             <div><input type="password" id="loginPass" required="true"/></div>
-            <div><input type="submit" id="buttonLogin" value="Login"/></div>
+            <div><input type="submit"  value="Login"/></div>
             </form>
       </section>
 
@@ -45,7 +45,7 @@
               <div>Username:</div>
               <div><input type="text" id="registerUser" required="true"/></div>
               <div><input type="password" id="registerPass" required="true"/></div>
-              <div><input type="submit" id="buttonRegister" value="Register"/></div>
+              <div><input type="submit"  value="Register"/></div>
           </form>
       </section>
 
@@ -62,8 +62,8 @@
               <div>Author:</div>
               <div><input type="text" id="bookAuthor" required="true"/></div>
               <div>Description:</div>
-              <div><textarea id="bookDescription" rows="10"></textarea></div>
-              <div><input type="submit" id="buttonCreateBook" value="Register"/></div>
+              <div><textarea type="text" id="bookDescription" rows="10"></textarea></div>
+              <div><input type="submit"  value="Create Book"/></div>
           </form>
       </section>
 

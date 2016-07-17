@@ -37,27 +37,40 @@ function showLoginView() {
 function login() {
     let authBase64 = btoa(kinveyAppID + ":" + kinveyAppSecret);
     let loginUrl = kinveyServiceBaseUrl + "user/" + kinveyAppID + "/login";
+    let loginData = {
+        username: $("#loginUser").val(),
+        password: $("#loginPass").val(),
+    };
+
     $.ajax({
         method: "POST",
         url: loginUrl,
-        data:
-        {
-            username: $("loginUser").val(),
-            password: $("loginPass").val()
-
-        },
+        data: loginData,
         headers: {"Authorization": "Basic " + authBase64 },
         success: loginSuccess,
         error: showAjaxError
     });
-
     function loginSuccess(data, status){
-        alert('success');
+        sessionStorage.authToken = data._kmd.authtoken;
+        showListBooksView();
+        showHideNavigationLinks();
+        showInfo("Login successful");
     }
+
+}
+
+function showInfo(messageText) {
+    $("#infoBox").text(messageText).show().delay(3000).fadeOut(1000);
 }
 
 function showAjaxError(data, status){
-    let errorMsg = "Error: " + JSON.stringify(data);
+    let errorMsg = '';
+    if (typeof(data.readyState) != 'undefined' && data.readyState == 0)
+    errorMsg = "Network error. Check your network connection";
+    else if (data.responseJSON && data.responseJSON.description)
+        errorMsg = data.responseJSON.description;
+    else
+        errorMsg = "Error: " + JSON.stringify(data);
     $('#errorBox').text(errorMsg).show();
 }
 
@@ -67,22 +80,100 @@ function showRegisterView() {
 
 function register (){
 
+    let authBase64 = btoa(kinveyAppID + ":" + kinveyAppSecret);
+    let loginUrl = kinveyServiceBaseUrl + "user/" +
+        kinveyAppID + "/";
+    let loginData = {
+        username: $("#registerUser").val(),
+        password: $("#registerPass").val(),
+    };
+
+    $.ajax({
+        method: "POST",
+        url: loginUrl,
+        data: loginData,
+        headers: {"Authorization": "Basic " + authBase64 },
+        success: registerSuccess,
+        error: showAjaxError
+    });
+    function registerSuccess(data, status){
+        sessionStorage.authToken = data._kmd.authtoken;
+        showListBooksView();
+        showHideNavigationLinks();
+        showInfo("User registered successfully");
+    }
 }
 
 function showListBooksView() {
     showView('viewListBooks');
+    let booksUrl = kinveyServiceBaseUrl + "appdata/" +
+        kinveyAppID + "/books";
+    let authHeaders = {"Authorization": "Kinvey " + sessionStorage.authToken};
+    $.ajax({
+        method: "GET",
+        url: booksUrl,
+        headers: authHeaders,
+        success: booksLoaded,
+        error: showAjaxError
+    });
+    function booksLoaded(books, status){
+
+        $("#books").text('');
+        let booksTable = $("<table>")
+            .append($("<tr>")
+                .append($('<th>Title</th>'))
+                .append($('<th>Author</th>'))
+                .append($('<th>Description</th>'))
+            );
+        showInfo("Books loaded");
+        for (let book of books) {
+            booksTable.append($("<tr>")
+                    .append($('<td></td>').text(book.title))
+                    .append($('<td></td>').text(book.author))
+                    .append($('<td></td>').text(book.description))
+                );
+        }
+        $("#books").append(booksTable);
+    }
+
 }
+
 function showCreateBookView() {
     showView('viewCreateBook');
 }
 
 function createBook() {
-
+    let booksUrl = kinveyServiceBaseUrl + "appdata/" +
+        kinveyAppID + "/books";
+    let authHeaders = {
+        "Authorization": "Kinvey " + sessionStorage.authToken,
+        "Content-Type": "application/json"
+    };
+    let newBookData = {
+        title: $("#bookTitle").val(),
+        author: $("#bookAuthor").val(),
+        description: $("#bookDescription").val(),
+        comments: [{author: "pesho", commentText: "uahah"},
+            {author: "gosho", commentText: "ehaa ujas"}]
+    };
+    $.ajax({
+        method: "POST",
+        url: booksUrl,
+        data: JSON.stringify(newBookData),
+        headers: authHeaders,
+        success: bookCreated,
+        error: showAjaxError
+    });
+    function bookCreated(data){
+        showListBooksView();
+        showInfo("Books created");
+    }
 }
 
 function logout(){
-    alert('logout');
+    sessionStorage.clear();
     showHomeView();
+    showHideNavigationLinks();
 }
 
 $(function() {
@@ -93,10 +184,18 @@ $(function() {
     $("#linkCreateBook").click(showCreateBookView);
     $("#linkLogout").click(logout);
 
-    $("#buttonLogin").click(login);
-    $("#buttonRegister").click(register);
-    $("#buttonCreateBook").click(createBook);
+    $("#formLogin").submit(function(e) {e.preventDefault(); login()});
+    $("#formRegister").submit(function(e) {e.preventDefault(); register()});
+    $("#formCreateBook").submit(function(e) {e.preventDefault(); createBook()});
 
     showHomeView();
     showHideNavigationLinks();
+
+    $(document)
+        .ajaxStart(function () {
+            $("#loadingBox").show();
+            })
+        .ajaxStop(function () {
+            $("#loadingBox").hide();
+        });
 });
