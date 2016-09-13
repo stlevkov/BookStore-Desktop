@@ -2,22 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Book Library</title>
+    <title>BookStore</title>
     <link rel="stylesheet" type="text/css" href="styles/books.css" />
     <script src="scripts/jquery-3.0.0.min.js.js"></script>
     <script src="scripts/books.js"></script>
-
-
 </head>
 <body>
   <header>
-      <a href="#" id="linkHome">Home</a>
-      <a href="#" id="linkLogin">Login</a>
-      <a href="#" id="linkRegister">Register</a>
-      <a href="#" id="linkListBooks">List Books</a>
-      <a href="#" id="linkCreateBook">Create Book</a>
-      <a href="#" id="linkLogout">Logout</a>
+      <img style="height: 150px; width: 450px;" src="content/images/bookstore-logo.png" />
   </header>
+  <nav>
+      <ul>
+      <a href="#" id="linkHome"><li>Home</li></a>
+      <a href="#" id="linkLogin"><li>Login</li></a>
+      <a href="#" id="linkRegister"><li>Register</li></a>
+      <a href="#" id="linkListBooks"><li>List Books</li></a>
+      <a href="#" id="linkCreateBook"><li>Create Book</li></a>
+      <a href="#" id="linkLogout"><li>Logout</li></a>
+      </ul>
+  </nav>
 
   <main>
       <section id="loadingBox">Loading</section>
@@ -32,8 +35,9 @@
       <section id="viewLogin">
           <h1>Please login</h1>
           <form id="formLogin">
-            <div>Username:</div>
+            <div class="text-title">Username</div>
             <div><input type="text" id="loginUser" required="true"/></div>
+              <div class="text-title">Password</div>
             <div><input type="password" id="loginPass" required="true"/></div>
             <div><input type="submit"  value="Login"/></div>
             </form>
@@ -42,8 +46,9 @@
       <section id="viewRegister">
           <h1>Please Register</h1>
           <form id="formRegister">
-              <div>Username:</div>
+              <div class="text-title">Username</div>
               <div><input type="text" id="registerUser" required="true"/></div>
+              <div class="text-title">Password</div>
               <div><input type="password" id="registerPass" required="true"/></div>
               <div><input type="submit"  value="Register"/></div>
           </form>
@@ -53,6 +58,14 @@
           <h1>Books Listing</h1>
           <div id="books">No Books.</div>
       </section>
+
+      <section id="viewAsideBooks">
+          <h1>My Profile</h1>
+          <div>
+              Some more text here
+          </div>
+      </section>
+
 
       <section id="viewCreateBook">
          <h1>Create new book</h1>
@@ -70,7 +83,7 @@
   </main>
 
   <footer>
-      (c) Book Library
+      (c) 2016 BookStore ver. 1.0 | Developed by Stoycho Levkov
   </footer>
 </body>
 </html>

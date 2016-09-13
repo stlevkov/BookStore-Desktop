@@ -23,12 +23,13 @@ function showHideNavigationLinks(){
         $("#linkCreateBook").hide();
         $("#linkLogout").hide();
     }
-
 }
+
 
 function showHomeView(){
     showView('viewHome');
 }
+
 
 function showLoginView() {
     showView('viewLogin');
@@ -39,7 +40,7 @@ function login() {
     let loginUrl = kinveyServiceBaseUrl + "user/" + kinveyAppID + "/login";
     let loginData = {
         username: $("#loginUser").val(),
-        password: $("#loginPass").val(),
+        password: $("#loginPass").val()
     };
 
     $.ajax({
@@ -85,7 +86,7 @@ function register (){
         kinveyAppID + "/";
     let loginData = {
         username: $("#registerUser").val(),
-        password: $("#registerPass").val(),
+        password: $("#registerPass").val()
     };
 
     $.ajax({
@@ -105,6 +106,7 @@ function register (){
 }
 
 function showListBooksView() {
+
     showView('viewListBooks');
     let booksUrl = kinveyServiceBaseUrl + "appdata/" +
         kinveyAppID + "/books";
@@ -119,23 +121,21 @@ function showListBooksView() {
     function booksLoaded(books, status){
 
         $("#books").text('');
-        let booksTable = $("<table>")
-            .append($("<tr>")
-                .append($('<th>Title</th>'))
-                .append($('<th>Author</th>'))
-                .append($('<th>Description</th>'))
-            );
+
+        let booksTable = $("<section></section>").append($('<div id="book-header">ALL BOOKS</div>'));
         showInfo("Books loaded");
-        for (let book of books) {
-            booksTable.append($("<tr>")
-                    .append($('<td></td>').text(book.title))
-                    .append($('<td></td>').text(book.author))
-                    .append($('<td></td>').text(book.description))
-                );
-        }
+
+            for (let book of books) {
+                booksTable.append($("<br>"));
+                booksTable.append($("<div id='book-title'></div>").text(book.title));
+                booksTable.append($("<div id='book-author'></div>").text(book.author));
+                booksTable.append($("<div id='book-description'></div>").text(book.description));
+                booksTable.append($("<br>"));
+                booksTable.append($("<hr>"));
+
+            }
         $("#books").append(booksTable);
     }
-
 }
 
 function showCreateBookView() {
@@ -189,6 +189,7 @@ $(function() {
     $("#formCreateBook").submit(function(e) {e.preventDefault(); createBook()});
 
     showHomeView();
+
     showHideNavigationLinks();
 
     $(document)
